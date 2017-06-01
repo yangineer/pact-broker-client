@@ -1,15 +1,16 @@
 import requests
 import json
+import urls
 
 from requests.auth import HTTPBasicAuth
-from . import urls
 
 
-def get_contract(
+def pull_contract(
     *,
     broker_url,
     provider,
     consumer,
+    dir_path='.',
     version='latest',
     username=None,
     password=None,
@@ -30,10 +31,16 @@ def get_contract(
         auth=auth or None
     )
     response.raise_for_status()
+    _save_contract(
+        contract=response.json(),
+        consumer=consumer,
+        provider=provider,
+        dir_path=dir_path
+    )
     return response
 
 
-def put_contract(
+def push_contract(
     *,
     contract_path,
     broker_url,
@@ -61,3 +68,11 @@ def put_contract(
     )
     response.raise_for_status()
     return response
+
+
+def _save_contract(*, contract, consumer, provider, dir_path):
+    consumer = consumer.replace(' ', '_')
+    provider = provider.replace(' ', '_')
+    file_path = f"{dir_path.rstrip('/')}/{provider}_{consumer}.json"
+    with open(file_path, 'w') as contract_file:
+        json.dump(contract, contract_file)
