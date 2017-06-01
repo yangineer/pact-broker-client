@@ -1,6 +1,6 @@
 import requests
 import json
-import urls
+from . import urls
 
 from requests.auth import HTTPBasicAuth
 
@@ -15,7 +15,7 @@ def pull_contract(
     username=None,
     password=None,
 ):
-    request_url = urls.GET_CONTRACT_URL.format(
+    request_url = urls.PULL_CONTRACT_URL.format(
         broker_url=broker_url.rstrip('/'),
         provider=provider,
         consumer=consumer,
@@ -46,11 +46,11 @@ def push_contract(
     broker_url,
     provider,
     consumer,
-    version='latest',
+    version,
     username=None,
     password=None,
 ):
-    request_url = urls.GET_CONTRACT_URL.format(
+    request_url = urls.PUSH_CONTRACT_URL.format(
         broker_url=broker_url.rstrip('/'),
         provider=provider,
         consumer=consumer,

@@ -1,7 +1,7 @@
 """
 Usage:
-    pact_broker_client push --host host --file file --provider provider --consumer consumer [(--user user --password password)]
-    pact_broker_client pull --host host --provider provider --consumer consumer [--dir dir] [(--user user --password password)]
+    pact_broker_client push --host host --file file --provider provider --consumer consumer [--version version] [(--user user --password password)]
+    pact_broker_client pull --host host --provider provider --consumer consumer --version version [--dir dir] [(--user user --password password)]
     pact_broker_client (-h | --help)
 
 Options:
@@ -14,7 +14,7 @@ Options:
     --password  Password if authentication is required.
     push    Uploads a file to the pact broker.
     pull    Pulls a contract from the pact broker.
-    --tag   Version or tag of the contract to upload/download.
+    --version   Version or tag of the contract to upload/download.
     --dir   Directory to save the downloaded contract.
 
 """
@@ -37,7 +37,7 @@ def handle_command(*, command, options=None):
         dir_path = options.dir
         username = options.user
         password = options.password
-        tag = options.tag
+        version = options.version
 
         if not any(host or consumer or provider):
             exit_on_error()
@@ -47,10 +47,32 @@ def handle_command(*, command, options=None):
             provider=provider,
             consumer=consumer,
             dir_path= dir_path or '.',
-            version=tag or 'latest',
+            version=version or 'latest',
             username=username,
             password=password
         )
+    elif command == 'push':
+        host = options.host
+        consumer = options.consumer
+        provider = options.provider
+        username = options.user
+        password = options.password
+        version = options.version
+        contract_path = options.file
+
+        if not any(host or consumer or provider or file):
+            exit_on_error()
+
+        result = push_contract(
+            broker_url=host,
+            contract_path=contract_path
+            provider=provider,
+            consumer=consumer,
+            version=version,
+            username=username,
+            password=password,
+        )
+
 
 parser = optparse.OptionParser(usage=__doc__)
 
@@ -61,7 +83,7 @@ parser.add_option('--consumer')
 parser.add_option('--user')
 parser.add_option('--password')
 parser.add_option('--dir')
-parser.add_option('--tag')
+parser.add_option('--version')
 
 
 options , args = parser.parse_args()
