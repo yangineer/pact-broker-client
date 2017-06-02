@@ -1,5 +1,5 @@
 import click
-import commands
+from . import commands
 
 
 @click.command()
@@ -31,7 +31,7 @@ def pull_pact(
         provider=provider,
         consumer=consumer
     )
-    click.echo(result[1])
+    click.echo(f'\n{result[1]}\n')
 
 
 @click.command()
@@ -65,4 +65,4 @@ def push_pact(
         pact_file=pact_file,
         version=version
     )
-    click.echo(result[1])
+    click.echo(f'\n{result[1]}\n')
