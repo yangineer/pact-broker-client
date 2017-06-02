@@ -1,6 +1,6 @@
 import requests
 import json
-from . import urls
+import urls
 
 from requests.auth import HTTPBasicAuth
 
@@ -10,11 +10,14 @@ def pull_contract(
     broker_url,
     provider,
     consumer,
-    dir_path='.',
+    pact_dir='.',
     version='latest',
     username=None,
     password=None,
 ):
+    if not all([broker_url, provider, consumer]):
+        raise ValueError('broker_url, provider and consumer are required.')
+
     request_url = urls.PULL_CONTRACT_URL.format(
         broker_url=broker_url.rstrip('/'),
         provider=provider,
@@ -31,13 +34,13 @@ def pull_contract(
         auth=auth or None
     )
     response.raise_for_status()
-    _save_contract(
+    saved_pact = _save_contract(
         contract=response.json(),
         consumer=consumer,
         provider=provider,
-        dir_path=dir_path
+        pact_dir=pact_dir
     )
-    return response
+    return response, f'Pact saved to {saved_pact}'
 
 
 def push_contract(
@@ -70,9 +73,11 @@ def push_contract(
     return response
 
 
-def _save_contract(*, contract, consumer, provider, dir_path):
+def _save_contract(*, contract, consumer, provider, pact_dir):
     consumer = consumer.replace(' ', '_')
     provider = provider.replace(' ', '_')
-    file_path = f"{dir_path.rstrip('/')}/{provider}_{consumer}.json"
+    file_path = f"{pact_dir.rstrip('/')}/{provider}_{consumer}.json"
     with open(file_path, 'w') as contract_file:
         json.dump(contract, contract_file)
+
+    return file_path
