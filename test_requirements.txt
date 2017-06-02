@@ -1,4 +1,4 @@
 pytest
 requests
-docopt
+click
 mock
