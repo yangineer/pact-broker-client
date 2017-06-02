@@ -45,7 +45,7 @@ def pull_contract(
 
 def push_contract(
     *,
-    contract_path,
+    pact_file,
     broker_url,
     provider,
     consumer,
@@ -53,6 +53,13 @@ def push_contract(
     username=None,
     password=None,
 ):
+
+    if not all([broker_url, provider, consumer, pact_file, version]):
+        raise ValueError(
+            'broker_url, provider and consumer, version and '
+            'pact_file are required.'
+        )
+
     request_url = urls.PUSH_CONTRACT_URL.format(
         broker_url=broker_url.rstrip('/'),
         provider=provider,
@@ -60,7 +67,7 @@ def push_contract(
         version=version
     )
 
-    with open(contract_path) as data_file:
+    with open(pact_file) as data_file:
         contract = json.load(data_file)
 
     auth = None
@@ -70,13 +77,19 @@ def push_contract(
         json=contract
     )
     response.raise_for_status()
-    return response
+    return response, (
+        'Pact with version:{} between {} and {} pushed'.format(
+            version,
+            consumer,
+            provider
+        )
+    )
 
 
 def _save_contract(*, contract, consumer, provider, pact_dir):
     consumer = consumer.replace(' ', '_')
     provider = provider.replace(' ', '_')
-    file_path = f"{pact_dir.rstrip('/')}/{provider}_{consumer}.json"
+    file_path = f"{pact_dir.rstrip('/')}/{provider}_{consumer}.json".lower()
     with open(file_path, 'w') as contract_file:
         json.dump(contract, contract_file)
 
