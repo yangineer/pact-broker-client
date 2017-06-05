@@ -1,53 +1,30 @@
 # pack_broker_client
-Client for the pact broker service
+Python client for the pact broker service
 
 
-# Install
+# Installation
+To install, simply:
 ```
 pip install pact-broker-client
-```
-
-# From source
-```
-python setup.py develop
 ```
 
 # Usage
 Use `pull_pact` to download a pact from the broker and `push_pact` upload a
 pact to the broker.
 
-The option `pull_pact --help` or `push_pact --help` will display the help page
-for that command.
+To pull a pact simply run:
+```
+pull_pact --broker_url http://my.broker/ --provider "Provider Service"
+--consumer "Consumer Service"
+```
 
-Usage: pull_pact [OPTIONS]
+To push a pact to the broker run:
+```
+push_pact --broker_url http://my.broker/ --provider "Provider App"
+--consumer "Consumer App" --pact_file pact.json --version 0.1.0
+```
 
-  Command line tool to pull pacts from a Pact Broker.
-
-Options:
-  --broker_url TEXT  Pact Broker host url.
-  --provider TEXT    Provider service name.
-  --consumer TEXT    Consumer service name.
-  --pact_dir TEXT    Directory to save the downloaded Pact.
-  --version TEXT     Version of the Pact to be downloaded.
-  --username TEXT    Pact Broker username.
-  --password TEXT    Pact Broker password.
-  --auth TEXT        When True, username and password are required.
-  --help             Show this message and exit.
-
-Usage: push_pact [OPTIONS]
-
-  Command line tool to push pacts from a Pact Broker.
-
-Options:
-  --broker_url TEXT  Pact Broker host url.
-  --provider TEXT    Provider service name.
-  --consumer TEXT    Consumer service name.
-  --pact_file TEXT   Pact file to be push to the broker.
-  --version TEXT     Version of the Pact.
-  --username TEXT    Pact Broker username.
-  --password TEXT    Pact Broker password.
-  --auth TEXT        When True, username and password are required.
-  --help             Show this message and exit.
-
+To see a full list of available option and what they do run `pull_pact --help`
+or `push_pact --help`.
 
 
