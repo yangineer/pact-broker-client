@@ -6,8 +6,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'requests=2.17.3'
-        'click=6.7'
+        'requests>=2.17.3'
+        'click>=6.7'
     ],
     classifiers=[
         'Programming Language :: Python :: 3.6',
