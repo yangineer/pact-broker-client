@@ -78,11 +78,8 @@ def push_contract(
     )
     response.raise_for_status()
     return response, (
-        'Pact with version:{} between {} and {} pushed'.format(
-            version,
-            consumer,
-            provider
-        )
+       f'''Pact with version:{version}
+       between {consumer} and {provider} pushed'''
     )
 
 

@@ -3,5 +3,9 @@ VERSION=$(shell cat VERSION)
 
 
 test:
-	flake8
 	pytest
+
+lint:
+	flake8
+
+

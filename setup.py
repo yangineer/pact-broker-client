@@ -2,15 +2,20 @@ from setuptools import setup, find_packages
 
 setup(
     name='pact-broker-client',
-    version='1.0',
+    version='0.1.0',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'Click',
+        'requests=2.17.3'
+        'click=6.7'
     ],
-    entry_points='''
-        [console_scripts]
-        pull_pact=broker_client.cli:pull_pact
-        push_pact=broker_client.cli:push_pact
-    ''',
+    classifiers=[
+        'Programming Language :: Python :: 3.6',
+    ],
+    entry_points={
+        'console_scripts':[
+            'pull_pact=pact_broker.cli:pull_pact',
+            'push_pact=pact_broker.cli:push_pact'
+        ]
+    }
 )

@@ -1,3 +1,2 @@
-requests
-click
-mock
+requests==2.17.3
+click==6.7
