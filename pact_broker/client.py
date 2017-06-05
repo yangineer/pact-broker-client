@@ -19,7 +19,7 @@ class BrokerClient:
             self.username and self.password
         ):
             raise ValueError(
-                'When authentication is True, username and password'
+                'When authentication is True, username and password '
                 'must be provided.'
             )
             self.auth = HTTPBasicAuth(self.username, self.password)
