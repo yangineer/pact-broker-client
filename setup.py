@@ -13,7 +13,7 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     entry_points={
-        'console_scripts':[
+        'console_scripts': [
             'pull_pact=pact_broker.cli:pull_pact',
             'push_pact=pact_broker.cli:push_pact'
         ]
