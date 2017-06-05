@@ -27,4 +27,10 @@ push_pact --broker_url http://my.broker/ --provider "Provider App"
 To see a full list of available option and what they do run `pull_pact --help`
 or `push_pact --help`.
 
+# Contact
+The project is maintained by Babylon Heath. You can get in touch at
+`chatbot-developers@babylonhealth.com`.
+
+
+
 
