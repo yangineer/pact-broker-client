@@ -13,18 +13,18 @@ class BrokerClient:
         self.username = user or settings.PACT_BROKER_USER
         self.password = password or settings.PACT_BROKER_PASSWORD
         self.pact_dir = pact_dir
-        self.auth = None
+        self._auth = None
 
-        if settings.AUTHENTICATION_ON and not (
-            self.username and self.password
-        ):
-            raise ValueError(
-                'When authentication is True, username and password '
-                'must be provided.'
-            )
-            self.auth = HTTPBasicAuth(self.username, self.password)
+        if settings.AUTHENTICATION_ON:
+            if not (self.username and self.password):
+                raise ValueError(
+                    'When authentication is True, username and password '
+                    'must be provided.'
+                )
+            else:
+                self._auth = HTTPBasicAuth(self.username, self.password)
 
-    def pull_contract(
+    def pull_pact(
         self,
         *,
         provider,
@@ -41,7 +41,7 @@ class BrokerClient:
 
         response = requests.get(
             request_url,
-            auth=self.auth
+            auth=self._auth
         )
         response.raise_for_status()
         saved_pact_path = self._save_contract(
@@ -52,7 +52,7 @@ class BrokerClient:
 
         return response, f'Pact saved to {saved_pact_path}'
 
-    def push_contract(self, *, pact_file, provider, consumer, version):
+    def push_pact(self, *, pact_file, provider, consumer, version):
         request_url = urls.PUSH_CONTRACT_URL.format(
             broker_url=self.broker_url,
             provider=provider,
@@ -65,7 +65,7 @@ class BrokerClient:
 
         response = requests.put(
             request_url,
-            auth=self.auth,
+            auth=self._auth,
             json=contract
         )
         response.raise_for_status()
