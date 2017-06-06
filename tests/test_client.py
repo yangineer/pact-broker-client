@@ -40,6 +40,7 @@ def pull_pact_response():
 
 @patch('pact_broker.client.requests.get')
 def test_pull_contract(mock_get, pull_pact_response):
+    settings.AUTHENTICATION_ON = False
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mock_get.return_value = pull_pact_response

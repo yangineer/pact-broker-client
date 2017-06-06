@@ -5,14 +5,19 @@ from . import settings
 
 
 @click.command()
-@click.option('--broker_url')
-@click.option('--consumer')
-@click.option('--provider')
-@click.option('--user')
-@click.option('--password')
-@click.option('--auth', default=False, is_flag=True)
-@click.option('--pact_dir', default='.')
-@click.option('--pact_version', default='latest')
+@click.option('--broker_url', help='Pact Broker host.')
+@click.option('--consumer', help='Consumer service name.')
+@click.option('--provider', help='Provider service name.')
+@click.option('--user', help='Pact Broker user.')
+@click.option('--password', help='Pact Broker password.')
+@click.option('--pact_dir', default='.', help='Directory to save path to.')
+@click.option('--pact_version', default='latest', help='Pact version to pull.')
+@click.option(
+    '--auth',
+    default=False,
+    is_flag=True,
+    help='Pact Broker is authenticated.'
+)
 def pull_pact(
     broker_url,
     consumer,
@@ -42,15 +47,20 @@ def pull_pact(
 
 
 @click.command()
-@click.option('--broker_url')
-@click.option('--consumer')
-@click.option('--provider')
-@click.option('--user')
-@click.option('--password')
-@click.option('--auth', default=False, is_flag=True)
-@click.option('--pact_file')
-@click.option('--pact_version')
-@click.option('--pact_dir', default='.')
+@click.option('--broker_url', help='Pact Broker host.')
+@click.option('--consumer', help='Consumer service name.')
+@click.option('--provider', help='Provider service name.')
+@click.option('--user', help='Pact Broker user.')
+@click.option('--password', help='Pact Broker password.')
+@click.option('--pact_file', help='Path to the Pact to push.')
+@click.option('--pact_version', help='Version of the new Pact.')
+@click.option('--pact_dir', default='.', help='Directory to save path to.')
+@click.option(
+    '--auth',
+    default=False,
+    is_flag=True,
+    help='Pact Broker is authenticated.'
+)
 def push_pact(
     broker_url,
     consumer,
