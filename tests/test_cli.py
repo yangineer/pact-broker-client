@@ -1,10 +1,9 @@
-import click
-
 from mock import patch
 
 from click.testing import CliRunner
 from pact_broker import settings
 from pact_broker.cli import pull_pact, push_pact
+
 
 @patch('pact_broker.client.BrokerClient.pull_pact')
 def test_cli_pull_pact(mock_pull_pact):
@@ -30,6 +29,7 @@ def test_cli_pull_pact(mock_pull_pact):
         consumer=consumer,
         version='latest'
     )
+
 
 @patch('pact_broker.client.BrokerClient.push_pact')
 def test_cli_push_pact(mock_push_pact):

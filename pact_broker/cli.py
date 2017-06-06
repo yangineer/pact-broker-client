@@ -26,7 +26,7 @@ def pull_pact(
     settings.AUTHENTICATION_ON = auth
 
     broker_client = BrokerClient(
-        broker_url = broker_url or settings.PACT_BROKER_URL,
+        broker_url=broker_url or settings.PACT_BROKER_URL,
         pact_dir=pact_dir or settings.PACT_DIR,
         user=user or settings.PACT_BROKER_USER,
         password=password or settings.PACT_BROKER_PASSWORD
@@ -65,7 +65,7 @@ def push_pact(
     settings.AUTHENTICATION_ON = auth
 
     broker_client = BrokerClient(
-        broker_url = broker_url or settings.PACT_BROKER_URL,
+        broker_url=broker_url or settings.PACT_BROKER_URL,
         pact_dir=pact_dir or settings.PACT_DIR,
         user=user or settings.PACT_BROKER_USER,
         password=password or settings.PACT_BROKER_PASSWORD
