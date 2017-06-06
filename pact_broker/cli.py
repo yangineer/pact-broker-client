@@ -10,13 +10,13 @@ from . import settings
 @click.option('--provider', help='Provider service name.')
 @click.option('--user', help='Pact Broker user.')
 @click.option('--password', help='Pact Broker password.')
-@click.option('--pact_dir', default='.', help='Directory to save path to.')
+@click.option('--pact_dir', default='.', help='Directory to save Pacts to.')
 @click.option('--pact_version', default='latest', help='Pact version to pull.')
 @click.option(
     '--auth',
     default=False,
     is_flag=True,
-    help='Pact Broker is authenticated.'
+    help='Indicates if Pact Broker is authenticated.'
 )
 def pull_pact(
     broker_url,
@@ -54,7 +54,7 @@ def pull_pact(
 @click.option('--password', help='Pact Broker password.')
 @click.option('--pact_file', help='Path to the Pact to push.')
 @click.option('--pact_version', help='Version of the new Pact.')
-@click.option('--pact_dir', default='.', help='Directory to save path to.')
+@click.option('--pact_dir', default='.', help='Directory to save Pacts to.')
 @click.option(
     '--auth',
     default=False,
