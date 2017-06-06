@@ -1,6 +1,7 @@
 import os
 
 _DEFAULT_PACT_BROKER_URL = 'http://localhost:8080/'
+_DEFAULT_PACT_DIR = '.'
 _DEFAULT_PACT_BROKER_USER = None
 _DEFAULT_PACT_BROKER_PASSWORD = None
 
@@ -19,4 +20,8 @@ PACT_BROKER_PASSWORD = os.environ.get(
 
 AUTHENTICATION_ON = os.environ.get(
     'PACT_AUTHENTICATION', _DEFAULT_AUTHENTICATION_ON
+)
+
+PACT_DIR = os.environ.get(
+    'PACT_DIR', _DEFAULT_PACT_DIR
 )

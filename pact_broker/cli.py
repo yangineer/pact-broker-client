@@ -1,68 +1,81 @@
 import click
-from . import commands
+
+from .client import BrokerClient
+from . import settings
 
 
 @click.command()
-@click.option('--broker_url', help='Pact Broker host url.')
-@click.option('--provider', help='Provider service name.')
-@click.option('--consumer', help='Consumer service name.')
-@click.option('--pact_dir', help='Directory to save the downloaded Pact.')
-@click.option('--version', help='Version of the Pact to be downloaded.')
-@click.option('--username', help='Pact Broker username.')
-@click.option('--password', help='Pact Broker password.')
-@click.option(
-    '--auth',
-    default=False,
-    help='When True, username and password are required.'
-)
+@click.option('--broker_url')
+@click.option('--consumer')
+@click.option('--provider')
+@click.option('--user')
+@click.option('--password')
+@click.option('--auth', default=False, is_flag=True)
+@click.option('--pact_dir', default='.')
+@click.option('--pact_version', default='latest')
 def pull_pact(
     broker_url,
-    provider,
     consumer,
-    pact_dir,
-    version,
-    username,
+    provider,
+    user,
     password,
-    auth
+    auth,
+    pact_dir,
+    pact_version
 ):
-    """Command line tool to pull pacts from a Pact Broker."""
-    result = commands.pull_contract(
-        broker_url=broker_url,
-        provider=provider,
-        consumer=consumer
+    settings.AUTHENTICATION_ON = auth
+
+    broker_client = BrokerClient(
+        broker_url = broker_url or settings.PACT_BROKER_URL,
+        pact_dir=pact_dir or settings.PACT_DIR,
+        user=user or settings.PACT_BROKER_USER,
+        password=password or settings.PACT_BROKER_PASSWORD
     )
-    click.echo(f'\n{result[1]}\n')
+
+    result = broker_client.pull_pact(
+        consumer=consumer,
+        provider=provider,
+        version=pact_version
+    )
+
+    click.echo(result[1])
 
 
 @click.command()
-@click.option('--broker_url', help='Pact Broker host url.')
-@click.option('--provider', help='Provider service name.')
-@click.option('--consumer', help='Consumer service name.')
-@click.option('--pact_file', help='Pact file to be push to the broker.')
-@click.option('--version', help='Version of the Pact.')
-@click.option('--username', help='Pact Broker username.')
-@click.option('--password', help='Pact Broker password.')
-@click.option(
-    '--auth',
-    default=False,
-    help='When True, username and password are required.'
-)
+@click.option('--broker_url')
+@click.option('--consumer')
+@click.option('--provider')
+@click.option('--user')
+@click.option('--password')
+@click.option('--auth', default=False, is_flag=True)
+@click.option('--pact_file')
+@click.option('--pact_version')
+@click.option('--pact_dir', default='.')
 def push_pact(
     broker_url,
-    provider,
     consumer,
-    pact_file,
-    version,
-    username,
+    provider,
+    user,
     password,
-    auth
+    auth,
+    pact_file,
+    pact_version,
+    pact_dir
 ):
-    """Command line tool to push pacts from a Pact Broker."""
-    result = commands.push_contract(
-        broker_url=broker_url,
-        provider=provider,
-        consumer=consumer,
-        pact_file=pact_file,
-        version=version
+    settings.AUTHENTICATION_ON = auth
+
+    broker_client = BrokerClient(
+        broker_url = broker_url or settings.PACT_BROKER_URL,
+        pact_dir=pact_dir or settings.PACT_DIR,
+        user=user or settings.PACT_BROKER_USER,
+        password=password or settings.PACT_BROKER_PASSWORD
     )
-    click.echo(f'\n{result[1]}\n')
+
+    result = broker_client.push_pact(
+        consumer=consumer,
+        provider=provider,
+        pact_file=pact_file,
+        version=pact_version
+    )
+
+    click.echo(result[1])

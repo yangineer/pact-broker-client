@@ -29,8 +29,7 @@ class BrokerClient:
         *,
         provider,
         consumer,
-        pact_dir='.',
-        version='latest',
+        version='latest'
     ):
         request_url = urls.PULL_CONTRACT_URL.format(
             broker_url=self.broker_url,
