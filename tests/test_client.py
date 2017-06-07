@@ -2,7 +2,7 @@ import json
 import os
 import pytest
 
-from http import client
+from http.client import OK
 from mock import patch
 from requests import Response
 
@@ -31,7 +31,7 @@ EXPECTED_PUSH_PACT_URL = (
 @pytest.fixture
 def pull_pact_response():
     response = Response()
-    response.status_code = client.http.HTTPStatus.OK
+    response.status_code = OK
     response._content = json.dumps(
         {'CONSUMER': CONSUMER, 'PROVIDER': PROVIDER}
     ).encode()
@@ -40,7 +40,6 @@ def pull_pact_response():
 
 @patch('pact_broker.client.requests.get')
 def test_pull_contract(mock_get, pull_pact_response):
-    settings.AUTHENTICATION_ON = False
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mock_get.return_value = pull_pact_response
@@ -51,7 +50,7 @@ def test_pull_contract(mock_get, pull_pact_response):
 
     saved_pact_path = f'./{PROVIDER}_{CONSUMER}.json'.lower().replace(' ', '_')
     assert os.path.exists(saved_pact_path)
-    mock_get.assert_called_with(
+    mock_get.assert_called_once_with(
         EXPECTED_PULL_PACT_URL,
         auth=None
     )
@@ -59,7 +58,6 @@ def test_pull_contract(mock_get, pull_pact_response):
 
 @patch('pact_broker.client.requests.get')
 def test_pull_pact_authentication(mock_get, pull_pact_response):
-    settings.AUTHENTICATION_ON = True
     mock_get.return_value = pull_pact_response
     broker_client = BrokerClient(
         broker_url=settings.PACT_BROKER_URL,
@@ -73,7 +71,7 @@ def test_pull_pact_authentication(mock_get, pull_pact_response):
         consumer=CONSUMER,
     )
 
-    mock_get.assert_called_with(
+    mock_get.assert_called_once_with(
         EXPECTED_PULL_PACT_URL,
         auth=HTTPBasicAuth('user', 'password')
     )
@@ -81,7 +79,6 @@ def test_pull_pact_authentication(mock_get, pull_pact_response):
 
 @patch('pact_broker.client.requests.put')
 def test_push_pact(mock_put):
-    settings.AUTHENTICATION_ON = False
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mocked_response = Response()
@@ -98,7 +95,7 @@ def test_push_pact(mock_put):
         version=PUSHED_VERSION
     )[0]
 
-    mock_put.assert_called_with(
+    mock_put.assert_called_once_with(
         EXPECTED_PUSH_PACT_URL,
         json=pact,
         auth=None

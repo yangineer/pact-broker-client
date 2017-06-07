@@ -1,6 +1,6 @@
 import click
 
-from .client import BrokerClient
+from . import BrokerClient
 from . import settings
 
 

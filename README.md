@@ -32,7 +32,7 @@ When successful, The `pull_pact` and `push_pact` methods return a tuple with
 a http response and a message.
 
 
-```
+```python
 from pact_broker.client import BrokerClient
 
 broker_client = BrokerClient(broker_url='http://my.broker.url')
