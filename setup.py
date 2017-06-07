@@ -17,5 +17,8 @@ setup(
             'pull_pact=pact_broker.cli:pull_pact',
             'push_pact=pact_broker.cli:push_pact'
         ]
-    }
+    },
+    license=read('LICENSE'),
+    author='Babylon Health',
+    author_email='chatbot-developers@babylonhealth.com'
 )
