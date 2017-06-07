@@ -33,7 +33,7 @@ a http response and a message.
 
 
 ```python
-from pact_broker.client import BrokerClient
+from pact_broker import BrokerClient
 
 broker_client = BrokerClient(broker_url='http://my.broker.url')
 

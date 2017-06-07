@@ -1,0 +1,10 @@
+machine:
+  python:
+    version: 3.6.0
+
+test:
+  pre:
+    - pip install -r test_requirements.txt
+  override:
+    - make lint
+    - make test
