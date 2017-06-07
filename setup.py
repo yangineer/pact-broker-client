@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
 
+with open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
+
 setup(
     name='pact-broker-client',
     version='0.1.0',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        'requests>=2.17.3'
-        'click>=6.7'
-    ],
+    install_requires=install_requires,
     classifiers=[
         'Programming Language :: Python :: 3.6',
     ],
