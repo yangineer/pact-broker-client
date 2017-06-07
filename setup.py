@@ -18,7 +18,7 @@ setup(
             'push_pact=pact_broker.cli:push_pact'
         ]
     },
-    license=read('LICENSE'),
+    license='Apache 2.0',
     author='Babylon Health',
     author_email='chatbot-developers@babylonhealth.com'
 )
