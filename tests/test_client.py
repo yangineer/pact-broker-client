@@ -2,7 +2,7 @@ import json
 import os
 import pytest
 
-from http.client import OK
+from http.client import OK, CREATED
 from mock import patch
 from requests import Response
 
@@ -82,7 +82,7 @@ def test_push_pact(mock_put):
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mocked_response = Response()
-    mocked_response.status_code = client.http.HTTPStatus.CREATED
+    mocked_response.status_code = CREATED
     mock_put.return_value = mocked_response
 
     with open(PACT_FILE_PATH) as data_file:
