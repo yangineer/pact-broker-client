@@ -50,6 +50,12 @@ pull_pact_response, pull_pact_message = broker_client.push_pact(
 )
 ```
 
+The following environment variables are available:
+`PACT_BROKER_PASSWORD`, `PACT_BROKER_USER`
+
+Whe used from the command line, if the authentication flag is on, and
+`--user` and `--password` are not provided, it'll fallback to these variables.
+
 
 # Contact
 The project is maintained by Babylon Heath. You can get in touch at
