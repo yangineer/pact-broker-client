@@ -2,20 +2,28 @@ import requests
 import json
 
 from . import urls
-from . import settings
 from requests.auth import HTTPBasicAuth
 
 
 class BrokerClient:
 
-    def __init__(self, *, broker_url, pact_dir='.', user=None, password=None):
-        self.broker_url = broker_url.rstrip('/') or settings.PACT_BROKER_URL
-        self.username = user or settings.PACT_BROKER_USER
-        self.password = password or settings.PACT_BROKER_PASSWORD
+    def __init__(
+        self,
+        *,
+        broker_url,
+        pact_dir='.',
+        user=None,
+        password=None,
+        authentication=False
+    ):
+        self.broker_url = broker_url.rstrip('/')
+        self.username = user
+        self.password = password
         self.pact_dir = pact_dir
+        self.authentication = authentication
         self._auth = None
 
-        if settings.AUTHENTICATION_ON:
+        if self.authentication:
             if not (self.username and self.password):
                 raise ValueError(
                     'When authentication is True, username and password '

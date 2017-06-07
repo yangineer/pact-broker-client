@@ -64,7 +64,8 @@ def test_pull_pact_authentication(mock_get, pull_pact_response):
     broker_client = BrokerClient(
         broker_url=settings.PACT_BROKER_URL,
         user='user',
-        password='password'
+        password='password',
+        authentication=True
     )
 
     broker_client.pull_pact(
