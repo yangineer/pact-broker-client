@@ -37,13 +37,13 @@ class BrokerClient:
         *,
         provider,
         consumer,
-        version='latest'
+        pact_version='latest'
     ):
-        request_url = urls.PULL_CONTRACT_URL.format(
+        request_url = urls.PULL_PACT_URL.format(
             broker_url=self.broker_url,
             provider=provider,
             consumer=consumer,
-            version=version
+            pact_version=pact_version
         )
 
         response = requests.get(
@@ -51,42 +51,41 @@ class BrokerClient:
             auth=self._auth
         )
         response.raise_for_status()
-        saved_pact_path = self._save_contract(
-            contract=response.json(),
+        saved_pact_path = self._save_pact(
+            pact_json=response.json(),
             consumer=consumer,
             provider=provider
         )
 
         return response, f'Pact saved to {saved_pact_path}'
 
-    def push_pact(self, *, pact_file, provider, consumer, version):
-        request_url = urls.PUSH_CONTRACT_URL.format(
+    def push_pact(self, *, pact_file, provider, consumer, consumer_version):
+        request_url = urls.PUSH_PACT_URL.format(
             broker_url=self.broker_url,
             provider=provider,
             consumer=consumer,
-            version=version
+            consumer_version=consumer_version
         )
 
         with open(pact_file) as data_file:
-            contract = json.load(data_file)
+            pact_json = json.load(data_file)
 
         response = requests.put(
             request_url,
             auth=self._auth,
-            json=contract
+            json=pact_json
         )
         response.raise_for_status()
         return response, (
-            f'Pact with version:{version}'
-            f'between {consumer} and {provider} pushed.'
+            f'Pact between {consumer} and {provider} pushed.'
         )
 
-    def _save_contract(self, *, contract, consumer, provider):
+    def _save_pact(self, *, pact_json, consumer, provider):
         consumer = consumer.replace(' ', '_')
         provider = provider.replace(' ', '_')
         file_path = f'{self.pact_dir}/{provider}_{consumer}.json'.lower()
 
-        with open(file_path, 'w') as contract_file:
-            json.dump(contract, contract_file)
+        with open(file_path, 'w') as pact_file:
+            json.dump(pact_json, pact_file)
 
         return file_path

@@ -1,8 +1,8 @@
 
-PUSH_CONTRACT_URL = (
+PUSH_PACT_URL = (
     '{broker_url}/pacts/provider/{provider}/consumer/'
-    '{consumer}/version/{version}'
+    '{consumer}/version/{consumer_version}'
 )
-PULL_CONTRACT_URL = (
-    '{broker_url}/pacts/provider/{provider}/consumer/{consumer}/{version}'
+PULL_PACT_URL = (
+    '{broker_url}/pacts/provider/{provider}/consumer/{consumer}/{pact_version}'
 )

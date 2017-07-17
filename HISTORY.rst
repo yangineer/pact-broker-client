@@ -3,11 +3,11 @@
 Release History
 ---------------
 
-0.1.1 (unreleased)
+1.0.0 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
-
+- Command line option "--version" is now "--consumer-version" in "push_pact".
+- "version" param is now "consumer_version" in "BrokerClient.push_pact".
 
 0.1.0 (2017-06-08)
 ++++++++++++++++++

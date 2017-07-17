@@ -16,15 +16,15 @@ from requests.auth import HTTPBasicAuth
 
 PROVIDER = 'Animal Service'
 CONSUMER = 'Zoo App'
-PACT_FILE_PATH = 'tests/stubs/contract.json'
+PACT_FILE_PATH = 'tests/stubs/test_pact.json'
 EXPECTED_PULL_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
     f'/consumer/{CONSUMER}/latest'
 )
-PUSHED_VERSION = f'{randint(100, 100000)}'
+CONSUMER_VERSION = f'{randint(100, 100000)}'
 EXPECTED_PUSH_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
-    f'/consumer/{CONSUMER}/version/{PUSHED_VERSION}'
+    f'/consumer/{CONSUMER}/version/{CONSUMER_VERSION}'
 )
 
 
@@ -39,7 +39,7 @@ def pull_pact_response():
 
 
 @patch('pact_broker.client.requests.get')
-def test_pull_contract(mock_get, pull_pact_response):
+def test_pull_pact(mock_get, pull_pact_response):
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mock_get.return_value = pull_pact_response
@@ -92,7 +92,7 @@ def test_push_pact(mock_put):
         provider=PROVIDER,
         consumer=CONSUMER,
         pact_file=PACT_FILE_PATH,
-        version=PUSHED_VERSION
+        consumer_version=CONSUMER_VERSION
     )[0]
 
     mock_put.assert_called_once_with(

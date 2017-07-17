@@ -21,7 +21,7 @@ pull_pact --broker_url http://my.broker/ --provider "Provider Service"
 To push a pact to the broker run:
 ```
 push_pact --broker_url http://my.broker/ --provider "Provider App"
---consumer "Consumer App" --pact_file pact.json --version 0.1.0
+--consumer "Consumer App" --pact_file pact.json --consumer-version 0.1.0
 ```
 
 To see a full list of available option and what they do run `pull_pact --help`
@@ -42,11 +42,11 @@ pull_pact_response, pull_pact_message = broker_client.pull_pact(
     consumer=CONSUMER
 )
 
-pull_pact_response, pull_pact_message = broker_client.push_pact(
+push_pact_response, push_pact_message = broker_client.push_pact(
     provider=PROVIDER,
     consumer=CONSUMER,
     pact_file=PACT_FILE_PATH,
-    version=PACT_VERSION
+    pact_version=PACT_VERSION
 )
 ```
 
