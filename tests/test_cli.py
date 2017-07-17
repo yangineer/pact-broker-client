@@ -27,7 +27,7 @@ def test_cli_pull_pact(mock_pull_pact):
     mock_pull_pact.assert_called_with(
         provider=provider,
         consumer=consumer,
-        version='latest'
+        pact_version='latest'
     )
 
 
@@ -38,8 +38,8 @@ def test_cli_push_pact(mock_push_pact):
     provider = 'provider'
     user = 'user'
     password = 'password'
-    pact_file = 'tests/stubs/contract.json'
-    version = '0.1.0'
+    pact_file = 'tests/stubs/test_pact.json'
+    consumer_version = '0.1.0'
 
     runner = CliRunner()
     result = runner.invoke(push_pact, [
@@ -50,12 +50,12 @@ def test_cli_push_pact(mock_push_pact):
         '--user', user,
         '--password', password,
         '--pact_file', pact_file,
-        '--pact_version', version
+        '--consumer_version', consumer_version
     ])
     assert result.exit_code == 0
     mock_push_pact.assert_called_with(
         provider=provider,
         consumer=consumer,
-        version=version,
+        consumer_version=consumer_version,
         pact_file=pact_file
     )
