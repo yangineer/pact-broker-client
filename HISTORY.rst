@@ -3,7 +3,7 @@
 Release History
 ---------------
 
-1.0.0 (unreleased)
+1.0.0 (2017-07-17)
 ++++++++++++++++++
 
 - Command line option "--version" is now "--consumer-version" in "push_pact".
