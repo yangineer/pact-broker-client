@@ -60,6 +60,7 @@ def test_cli_push_pact(mock_push_pact):
         pact_file=pact_file
     )
 
+
 @patch('pact_broker.client.BrokerClient.push_pact')
 def test_push_pact_with_tag(mock_push_pact):
     broker_url = settings.PACT_BROKER_URL
