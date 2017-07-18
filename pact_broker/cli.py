@@ -85,11 +85,21 @@ def push_pact(
         authentication=auth
     )
 
-    result = broker_client.push_pact(
+    push_pact_result = broker_client.push_pact(
         consumer=consumer,
         provider=provider,
         pact_file=pact_file,
         consumer_version=consumer_version
     )
+    click.echo(push_pact_result[1])
 
-    click.echo(result[1])
+    tag_pact_result = broker_client.tag_pact(
+        consumer=consumer,
+        provider=provider,
+        consumer_version=consumer_version,
+        tag=tag
+    )
+    click.echo(tag_pact_result[1])
+
+
+
