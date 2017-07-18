@@ -80,6 +80,23 @@ class BrokerClient:
             f'Pact between {consumer} and {provider} pushed.'
         )
 
+    def tag_pact(self, provider, consumer, consumer_version, tag):
+        request_url = urls.TAG_PACT_URL.format(
+            broker_url=self.broker_url,
+            provider=provider,
+            consumer=consumer,
+            consumer_version=consumer_version,
+            tag=tag
+        )
+        response = requests.put(
+            request_url,
+            auth=self._auth
+        )
+
+        return response, (
+            f'{consumer} version {consumer_version} tagged as {tag}'
+        )
+
     def _save_pact(self, *, pact_json, consumer, provider):
         consumer = consumer.replace(' ', '_')
         provider = provider.replace(' ', '_')

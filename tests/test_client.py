@@ -17,6 +17,7 @@ from requests.auth import HTTPBasicAuth
 PROVIDER = 'Animal Service'
 CONSUMER = 'Zoo App'
 PACT_FILE_PATH = 'tests/stubs/test_pact.json'
+TAG = 'dev'
 EXPECTED_PULL_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
     f'/consumer/{CONSUMER}/latest'
@@ -25,6 +26,11 @@ CONSUMER_VERSION = f'{randint(100, 100000)}'
 EXPECTED_PUSH_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
     f'/consumer/{CONSUMER}/version/{CONSUMER_VERSION}'
+)
+EXPECTED_TAG_PACT_URL = (
+    f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
+    f'/consumer/{CONSUMER}/version/{CONSUMER_VERSION}'
+    f'/tags/{TAG}'
 )
 
 
@@ -98,5 +104,26 @@ def test_push_pact(mock_put):
     mock_put.assert_called_once_with(
         EXPECTED_PUSH_PACT_URL,
         json=pact,
+        auth=None
+    )
+
+
+@patch('pact_broker.client.requests.put')
+def test_tag_pact(mock_put):
+    broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
+
+    mocked_response = Response()
+    mocked_response.status_code = CREATED
+    mock_put.return_value = mocked_response
+
+    broker_client.tag_pact(
+        provider=PROVIDER,
+        consumer=CONSUMER,
+        consumer_version=CONSUMER_VERSION,
+        tag=TAG
+    )[0]
+
+    mock_put.assert_called_once_with(
+        EXPECTED_TAG_PACT_URL,
         auth=None
     )
