@@ -27,10 +27,9 @@ EXPECTED_PUSH_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
     f'/consumer/{CONSUMER}/version/{CONSUMER_VERSION}'
 )
-EXPECTED_TAG_PACT_URL = (
-    f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
-    f'/consumer/{CONSUMER}/version/{CONSUMER_VERSION}'
-    f'/tags/{TAG}'
+EXPECTED_TAG_CONSUMER_URL = (
+    f'{settings.PACT_BROKER_URL}/pacticipants/{CONSUMER}'
+    f'/versions/{CONSUMER_VERSION}/tags/{TAG}'
 )
 
 
@@ -109,14 +108,14 @@ def test_push_pact(mock_put):
 
 
 @patch('pact_broker.client.requests.put')
-def test_tag_pact(mock_put):
+def test_tag_consumer(mock_put):
     broker_client = BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
     mocked_response = Response()
     mocked_response.status_code = CREATED
     mock_put.return_value = mocked_response
 
-    broker_client.tag_pact(
+    broker_client.tag_consumer(
         provider=PROVIDER,
         consumer=CONSUMER,
         consumer_version=CONSUMER_VERSION,
@@ -124,6 +123,7 @@ def test_tag_pact(mock_put):
     )[0]
 
     mock_put.assert_called_once_with(
-        EXPECTED_TAG_PACT_URL,
+        EXPECTED_TAG_CONSUMER_URL,
+        headers={'Content-Type': 'application/json'},
         auth=None
     )

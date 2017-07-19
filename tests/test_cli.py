@@ -60,9 +60,10 @@ def test_cli_push_pact(mock_push_pact):
         pact_file=pact_file
     )
 
-@patch('pact_broker.client.BrokerClient.tag_pact')
+
+@patch('pact_broker.client.BrokerClient.tag_consumer')
 @patch('pact_broker.client.BrokerClient.push_pact')
-def test_push_pact_with_tag(mock_push_pact, mock_tag_pact):
+def test_push_pact_with_tag(mock_push_pact, mock_tag_consumer):
     broker_url = settings.PACT_BROKER_URL
     consumer = 'consumer'
     provider = 'provider'
@@ -91,10 +92,9 @@ def test_push_pact_with_tag(mock_push_pact, mock_tag_pact):
         consumer_version=consumer_version,
         pact_file=pact_file
     )
-    mock_tag_pact.assert_called_with(
+    mock_tag_consumer.assert_called_with(
         provider=provider,
         consumer=consumer,
         consumer_version=consumer_version,
         tag=tag
     )
-

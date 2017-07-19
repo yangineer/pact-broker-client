@@ -93,13 +93,10 @@ def push_pact(
     )
     click.echo(push_pact_result[1])
 
-    tag_pact_result = broker_client.tag_pact(
+    tag_consumer_result = broker_client.tag_consumer(
         consumer=consumer,
         provider=provider,
         consumer_version=consumer_version,
         tag=tag
     )
-    click.echo(tag_pact_result[1])
-
-
-
+    click.echo(tag_consumer_result[1])

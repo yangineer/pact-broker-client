@@ -80,16 +80,17 @@ class BrokerClient:
             f'Pact between {consumer} and {provider} pushed.'
         )
 
-    def tag_pact(self, provider, consumer, consumer_version, tag):
-        request_url = urls.TAG_PACT_URL.format(
+    def tag_consumer(self, *, provider, consumer, consumer_version, tag):
+        request_url = urls.TAG_CONSUMER_URL.format(
             broker_url=self.broker_url,
-            provider=provider,
             consumer=consumer,
             consumer_version=consumer_version,
             tag=tag
         )
+        print(request_url)
         response = requests.put(
             request_url,
+            headers={'Content-Type': 'application/json'},
             auth=self._auth
         )
 
