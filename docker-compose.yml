@@ -1,0 +1,19 @@
+version: "2"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: pact-broker-user
+      POSTGRES_PASSWORD: pact-broker-password
+      POSTGRES_DB: pact-broker-db
+  pact-broker:
+    image: dius/pact-broker
+    environment:
+      PACT_BROKER_DATABASE_USERNAME: pact-broker-user
+      PACT_BROKER_DATABASE_PASSWORD: pact-broker-password
+      PACT_BROKER_DATABASE_HOST: db
+      PACT_BROKER_DATABASE_NAME: pact-broker-db
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
