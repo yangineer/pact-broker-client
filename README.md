@@ -15,7 +15,7 @@ pip install -r test_requirements.txt
 make test
 ```
 
-To run the end to end tests (You will need docker-compose).
+To run the end to end tests (You will need docker-compose):
 ```
 pip install -r test_requirements.txt
 make test-e2e
