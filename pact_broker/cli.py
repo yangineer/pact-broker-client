@@ -56,7 +56,7 @@ def pull_pact(
 @click.option('--consumer_version', help='Consumer application version.')
 @click.option('--pact_dir', default='.', help='Directory to save Pacts to.')
 @click.option(
-    '--tag', default='dev', help='Consumer version tag. eg "prod".'
+    '--tag', required=True, help='Consumer version tag. eg "prod".'
 )
 @click.option(
     '--auth',
