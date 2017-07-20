@@ -92,7 +92,7 @@ class BrokerClient:
             headers={'Content-Type': 'application/json'},
             auth=self._auth
         )
-
+        response.raise_for_status()
         return response, (
             f'{consumer} version {consumer_version} tagged as {tag}'
         )
