@@ -31,8 +31,9 @@ def test_cli_pull_pact(mock_pull_pact):
     )
 
 
+@patch('pact_broker.client.BrokerClient.tag_consumer')
 @patch('pact_broker.client.BrokerClient.push_pact')
-def test_cli_push_pact(mock_push_pact):
+def test_cli_push_pact(mock_push_pact, mock_tag_consumer):
     broker_url = settings.PACT_BROKER_URL
     consumer = 'consumer'
     provider = 'provider'
