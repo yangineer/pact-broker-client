@@ -59,7 +59,7 @@ push_pact_response, push_pact_message = broker_client.push_pact(
     provider=PROVIDER,
     consumer=CONSUMER,
     pact_file=PACT_FILE_PATH,
-    pact_version=PACT_VERSION
+    consumer_version=consumer_version
 )
 ```
 
