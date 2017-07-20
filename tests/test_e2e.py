@@ -23,7 +23,7 @@ def broker_client():
 @pytest.mark.integration
 def test_upload_pact_with_tag_and_download(broker_client):
     push_pact_response = broker_client.push_pact(
-        pact_file='tests/stubs/test_pact.json',
+        pact_file=PACT_FILE_PATH,
         provider=PROVIDER,
         consumer=CONSUMER,
         consumer_version=CONSUMER_VERSION
