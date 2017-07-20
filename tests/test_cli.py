@@ -31,8 +31,9 @@ def test_cli_pull_pact(mock_pull_pact):
     )
 
 
+@patch('pact_broker.client.BrokerClient.tag_consumer')
 @patch('pact_broker.client.BrokerClient.push_pact')
-def test_cli_push_pact(mock_push_pact):
+def test_push_pact_with_tag(mock_push_pact, mock_tag_consumer):
     broker_url = settings.PACT_BROKER_URL
     consumer = 'consumer'
     provider = 'provider'
@@ -40,6 +41,7 @@ def test_cli_push_pact(mock_push_pact):
     password = 'password'
     pact_file = 'tests/stubs/test_pact.json'
     consumer_version = '0.1.0'
+    tag = 'dev'
 
     runner = CliRunner()
     result = runner.invoke(push_pact, [
@@ -50,12 +52,19 @@ def test_cli_push_pact(mock_push_pact):
         '--user', user,
         '--password', password,
         '--pact_file', pact_file,
-        '--consumer_version', consumer_version
+        '--consumer_version', consumer_version,
+        '--tag', tag
     ])
-    assert result.exit_code == 0
+    assert result.exit_code == 0, result.output
     mock_push_pact.assert_called_with(
         provider=provider,
         consumer=consumer,
         consumer_version=consumer_version,
         pact_file=pact_file
+    )
+    mock_tag_consumer.assert_called_with(
+        provider=provider,
+        consumer=consumer,
+        consumer_version=consumer_version,
+        tag=tag
     )

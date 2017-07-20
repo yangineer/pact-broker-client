@@ -37,13 +37,13 @@ class BrokerClient:
         *,
         provider,
         consumer,
-        pact_version='latest'
+        tag=''
     ):
         request_url = urls.PULL_PACT_URL.format(
             broker_url=self.broker_url,
             provider=provider,
             consumer=consumer,
-            pact_version=pact_version
+            tag=tag
         )
 
         response = requests.get(
@@ -78,6 +78,23 @@ class BrokerClient:
         response.raise_for_status()
         return response, (
             f'Pact between {consumer} and {provider} pushed.'
+        )
+
+    def tag_consumer(self, *, provider, consumer, consumer_version, tag):
+        request_url = urls.TAG_CONSUMER_URL.format(
+            broker_url=self.broker_url,
+            consumer=consumer,
+            consumer_version=consumer_version,
+            tag=tag
+        )
+        response = requests.put(
+            request_url,
+            headers={'Content-Type': 'application/json'},
+            auth=self._auth
+        )
+        response.raise_for_status()
+        return response, (
+            f'{consumer} version {consumer_version} tagged as {tag}'
         )
 
     def _save_pact(self, *, pact_json, consumer, provider):

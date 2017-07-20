@@ -56,6 +56,9 @@ def pull_pact(
 @click.option('--consumer_version', help='Consumer application version.')
 @click.option('--pact_dir', default='.', help='Directory to save Pacts to.')
 @click.option(
+    '--tag', required=True, help='Consumer version tag. eg "prod".'
+)
+@click.option(
     '--auth',
     default=False,
     is_flag=True,
@@ -70,7 +73,8 @@ def push_pact(
     auth,
     pact_file,
     consumer_version,
-    pact_dir
+    pact_dir,
+    tag
 ):
 
     broker_client = BrokerClient(
@@ -81,11 +85,18 @@ def push_pact(
         authentication=auth
     )
 
-    result = broker_client.push_pact(
+    push_pact_result = broker_client.push_pact(
         consumer=consumer,
         provider=provider,
         pact_file=pact_file,
         consumer_version=consumer_version
     )
+    click.echo(push_pact_result[1])
 
-    click.echo(result[1])
+    tag_consumer_result = broker_client.tag_consumer(
+        consumer=consumer,
+        provider=provider,
+        consumer_version=consumer_version,
+        tag=tag
+    )
+    click.echo(tag_consumer_result[1])

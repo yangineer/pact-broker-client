@@ -3,10 +3,11 @@
 Release History
 ---------------
 
-1.0.1 (unreleased)
+2.0.0 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- Support for tagging consumer app. eg: "prod"
+- End to End tests.
 
 
 1.0.0 (2017-07-17)
