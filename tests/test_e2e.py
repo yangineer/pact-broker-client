@@ -17,9 +17,7 @@ TAG = 'prod'
 
 @pytest.fixture
 def broker_client():
-    return BrokerClient(
-        broker_url=settings.PACT_BROKER_URL
-    )
+    return BrokerClient(broker_url=settings.PACT_BROKER_URL)
 
 
 @pytest.mark.integration
