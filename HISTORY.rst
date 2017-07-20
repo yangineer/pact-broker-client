@@ -3,7 +3,7 @@
 Release History
 ---------------
 
-1.0.1 (unreleased)
+2.0.0 (unreleased)
 ++++++++++++++++++
 
 - Support for tagging consumer app. eg: "prod"
