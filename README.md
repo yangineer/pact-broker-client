@@ -8,6 +8,19 @@ To install, simply:
 pip install pact-broker-client
 ```
 
+# Testing
+To run the unit tests:
+```
+pip install -r test_requirements.txt
+make test
+```
+
+To run the end to end tests (You will need docker-compose).
+```
+pip install -r test_requirements.txt
+make test-e2e
+```
+
 # Command line usage
 Use `pull_pact` to download a pact from the broker and `push_pact` upload a
 pact to the broker.
