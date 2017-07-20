@@ -37,13 +37,13 @@ class BrokerClient:
         *,
         provider,
         consumer,
-        pact_version='latest'
+        tag=''
     ):
         request_url = urls.PULL_PACT_URL.format(
             broker_url=self.broker_url,
             provider=provider,
             consumer=consumer,
-            pact_version=pact_version
+            tag=tag
         )
 
         response = requests.get(
@@ -87,7 +87,6 @@ class BrokerClient:
             consumer_version=consumer_version,
             tag=tag
         )
-        print(request_url)
         response = requests.put(
             request_url,
             headers={'Content-Type': 'application/json'},

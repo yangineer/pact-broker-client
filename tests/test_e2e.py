@@ -3,7 +3,7 @@ from pact_broker.client import BrokerClient
 
 from random import randint
 
-from http.client import CREATED
+from http.client import CREATED, OK
 
 import pytest
 
@@ -12,7 +12,7 @@ CONSUMER_VERSION = f'{randint(100, 100000)}'
 PROVIDER = f'Animal Service'
 CONSUMER = 'Zoo App'
 PACT_FILE_PATH = 'tests/stubs/test_pact.json'
-TAG = 'dev'
+TAG = 'prod'
 
 
 @pytest.fixture
@@ -39,3 +39,10 @@ def test_upload_pact_with_tag_and_download(broker_client):
         tag=TAG
     )[0]
     assert tag_consumer_response.status_code == CREATED
+
+    pull_pact_response = broker_client.pull_pact(
+        provider=PROVIDER,
+        consumer=CONSUMER,
+        tag=TAG
+    )[0]
+    assert pull_pact_response.status_code == OK

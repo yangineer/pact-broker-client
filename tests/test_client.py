@@ -20,7 +20,7 @@ PACT_FILE_PATH = 'tests/stubs/test_pact.json'
 TAG = 'dev'
 EXPECTED_PULL_PACT_URL = (
     f'{settings.PACT_BROKER_URL}/pacts/provider/{PROVIDER}'
-    f'/consumer/{CONSUMER}/latest'
+    f'/consumer/{CONSUMER}/latest/'
 )
 CONSUMER_VERSION = f'{randint(100, 100000)}'
 EXPECTED_PUSH_PACT_URL = (
