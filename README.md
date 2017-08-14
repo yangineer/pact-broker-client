@@ -71,9 +71,5 @@ Whe used from the command line, if the authentication flag is on, and
 
 
 # Contact
-The project is maintained by Babylon Heath. You can get in touch at
+The project is maintained by Babylon Health. You can get in touch at
 `chatbot-developers@babylonhealth.com`.
-
-
-
-
