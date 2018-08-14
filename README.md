@@ -34,7 +34,7 @@ pull_pact --broker_url http://my.broker/ --provider "Provider Service"
 To push a pact to the broker run:
 ```
 push_pact --broker_url http://my.broker/ --provider "Provider App"
---consumer "Consumer App" --pact_file pact.json --consumer-version 0.1.0
+--consumer "Consumer App" --pact_file pact.json --consumer_version 0.1.0
 ```
 
 To see a full list of available option and what they do run `pull_pact --help`
